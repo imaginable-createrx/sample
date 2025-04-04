@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Priyanshi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Audio Player (hidden) -->
+    <!-- Audio Player (hidden) -->
+    <audio id="bgMusic" loop autoplay>
+        <source src="audio/Zaroor Aparshakti Khurana Savi Kahlon Official Music Video.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&display=swap');
+        
+        body {
+            font-family: 'Dancing Script', cursive;
+            background: linear-gradient(135deg, #fff0f6 0%, #ffe8f0 100%);
+            color: #333;
+            overflow-x: hidden;
+            cursor: none;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* Ultra Beautiful Heart Trail */
+        .heart {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff4081"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center center;
+            pointer-events: none;
+            transition: transform 0.2s ease, opacity 0.3s ease;
+            filter: drop-shadow(0 0 8px rgba(255, 64, 129, 0.8));
+            z-index: 10;
+            animation: pulse 1.5s ease infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        /* Stunning Main Content */
+        .main-content {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 5.5rem;
+            color: #d81b60;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 20px rgba(216, 27, 96, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+            line-height: 1.2;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(216, 27, 96, 0.5); }
+            to { text-shadow: 0 0 20px rgba(216, 27, 96, 0.7), 0 0 30px rgba(216, 27, 96, 0.5); }
+        }
+
+        p {
+            font-size: 2.2rem;
+            color: #880e4f;
+            max-width: 700px;
+            margin-bottom: 3rem;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+        }
+
+        /* Magical Falling Elements */
+        .falling-element {
+            position: absolute;
+            z-index: 1;
+            animation: falling linear infinite;
+            opacity: 0.9;
+        }
+
+        /* Ultra Romantic Button */
+        .love-btn {
+            background: linear-gradient(45deg, #ff4081, #ff6e40);
+            color: white;
+            font-size: 1.8rem;
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 0 6px 20px rgba(255, 64, 129, 0.5);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 3;
+        }
+
+        .love-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 64, 129, 0.7);
+        }
+
+        .love-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        /* Sparkle Effects */
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 5;
+            filter: blur(1px);
+            animation: sparkle 1s ease-out forwards;
+        }
+
+        @keyframes sparkle {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Heart Trail -->
+    <div id="heart-trail"></div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Good Morning,<br>My Beautiful Priyanshi</h1>
+        <p>You make my world brighter than the morning sun</p>
+        <button class="love-btn" id="loveBtn">
+            <i class="fas fa-heart mr-3"></i> My Eternal Love
+        </button>
+    </div>
+    
+    <!-- Falling Elements Container -->
+    <div id="falling-container"></div>
+
+    <script>
+        // Ultra Beautiful Heart Trail
+        const heartTrail = document.getElementById('heart-trail');
+        const hearts = [];
+        const heartCount = 35;
+        const positions = Array(heartCount).fill().map(() => ({ x: 0, y: 0 }));
+        let mouseX = 0;
+        let mouseY = 0;
+
+        // Create hearts with pulsing animation
+        for (let i = 0; i < heartCount; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.width = `${28 - i*0.5}px`;
+            heart.style.height = `${28 - i*0.5}px`;
+            heart.style.opacity = `${1 - i*0.02}`;
+            heart.style.filter = `hue-rotate(${i*2}deg) drop-shadow(0 0 8px rgba(255, 64, 129, 0.8)) brightness(${1 + i*0.02})`;
+            heart.style.animationDelay = `${i*0.1}s`;
+            heartTrail.appendChild(heart);
+            hearts.push(heart);
+        }
+
+        // Mouse movement with sparkles
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Create sparkles occasionally
+            if (Math.random() > 0.7) {
+                createSparkle(e.clientX, e.clientY);
+            }
+        });
+
+        // Create sparkle effect
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = `${x - 5}px`;
+            sparkle.style.top = `${y - 5}px`;
+            sparkle.style.animationDelay = `${Math.random() * 0.5}s`;
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 1000);
+        }
+
+        // Animation loop
+        function animate() {
+            positions[0] = { x: mouseX - 14, y: mouseY - 14 };
+            
+            for (let i = 1; i < heartCount; i++) {
+                const prev = positions[i - 1];
+                const current = positions[i];
+                positions[i] = {
+                    x: current.x + (prev.x - current.x) * 0.1,
+                    y: current.y + (prev.y - current.y) * 0.1
+                };
+            }
+            
+            hearts.forEach((heart, i) => {
+                heart.style.left = `${positions[i].x}px`;
+                heart.style.top = `${positions[i].y}px`;
+                heart.style.transform = `rotate(${i*3}deg) scale(${1 - i*0.01})`;
+            });
+            
+            requestAnimationFrame(animate);
+        }
+
+        // Create magical falling elements
+        function createFallingElements() {
+            const container = document.getElementById('falling-container');
+            const elements = ['❤️', '🌸', '✨', '🌹', '💖'];
+            
+            for (let i = 0; i < 30; i++) {
+                const element = document.createElement('div');
+                element.className = 'falling-element';
+                element.textContent = elements[Math.floor(Math.random() * elements.length)];
+                
+                const size = Math.random() * 30 + 20;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 25 + 20;
+                const delay = Math.random() * 20;
+                const rotation = Math.random() * 360;
+                
+                element.style.fontSize = `${size}px`;
+                element.style.left = `${left}%`;
+                element.style.top = `-${size}px`;
+                element.style.animationDuration = `${duration}s`;
+                element.style.animationDelay = `${delay}s`;
+                element.style.transform = `rotate(${rotation}deg)`;
+                element.style.opacity = `${Math.random() * 0.5 + 0.5}`;
+                
+                const keyframes = `
+                    @keyframes falling {
+                        0% { transform: translateY(-${size}px) rotate(${rotation}deg); }
+                        100% { transform: translateY(100vh) rotate(${rotation + 720}deg); }
+                    }
+                `;
+                
+                const style = document.createElement('style');
+                style.innerHTML = keyframes;
+                document.head.appendChild(style);
+                
+                container.appendChild(element);
+            }
+        }
+
+        // Button click effect
+        document.getElementById('loveBtn').addEventListener('click', function(e) {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    createSparkle(
+                        e.clientX + (Math.random() - 0.5) * 100,
+                        e.clientY + (Math.random() - 0.5) * 100
+                    );
+                }, i * 50);
+            }
+        });
+
+        // Initialize effects
+        createFallingElements();
+        animate();
+
+        // Music control button
+        const musicBtn = document.createElement('button');
+        musicBtn.innerHTML = '<i class="fas fa-music"></i>';
+        musicBtn.style.position = 'fixed';
+        musicBtn.style.bottom = '20px';
+        musicBtn.style.right = '20px';
+        musicBtn.style.zIndex = '100';
+        musicBtn.style.background = 'rgba(255,255,255,0.7)';
+        musicBtn.style.borderRadius = '50%';
+        musicBtn.style.width = '50px';
+        musicBtn.style.height = '50px';
+        musicBtn.style.border = 'none';
+        musicBtn.style.cursor = 'pointer';
+        musicBtn.style.fontSize = '1.5rem';
+        musicBtn.style.color = '#ff4081';
+        
+        const bgMusic = document.getElementById('bgMusic');
+        let isPlaying = true; // Start with music playing
+        
+        // Try to autoplay and handle if blocked
+        const playPromise = bgMusic.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                isPlaying = false;
+                musicBtn.innerHTML = '<i class="fas fa-music"></i>';
+                musicBtn.title = 'Play music (autoplay blocked)';
+            });
+        }
+
+        musicBtn.addEventListener('click', function() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicBtn.innerHTML = '<i class="fas fa-music"></i>';
+                musicBtn.title = 'Play music';
+            } else {
+                bgMusic.play();
+                musicBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                musicBtn.title = 'Pause music';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        document.body.appendChild(musicBtn);
+        
+        // Initial sparkles
+        for (let i = 0; i < 20; i++) {
+            setTimeout(() => {
+                createSparkle(
+                    Math.random() * window.innerWidth,
+                    Math.random() * window.innerHeight
+                );
+            }, i * 300);
+        }
+    </script>
+</body>
+</html>
